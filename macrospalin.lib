@@ -1,0 +1,73 @@
+;*******************************************************   
+imprime macro messg
+;Macro para imprimir un mensaje 
+        	push ax
+	push dx
+	mov ah,09
+        	lea dx, messg
+        	int 21h
+	pop dx
+	pop ax
+ENDM
+;*******************************************************   
+LEE     MACRO arg1
+;macro para leer cadena
+                push ax
+                push dx
+                lea dx,arg1
+                mov ah,10
+                int 21h
+                pop dx
+                pop ax
+ENDM
+;*******************************************************   
+LEE_CARACTER MACRO
+;Macro para leer un caracter
+	mov  ah,01h
+   	int  21h
+ENDM
+;*******************************************************   
+fin macro 
+;Macro para cerrar el programa
+	mov ax,4c00h
+	int 21h
+ENDM	
+;*******************************************************        
+LIMPIAR MACRO COL
+;Macro para limpiar la pantalla
+        	mov ax,0600h   ;toda la pantalla
+        	mov bh,COL     ;Fondo blanco, frente negro
+        	mov cx,0000h   ;desde fila 00, columna 00
+        	mov dx,184fh   ;hasta fila 25(18h), columna 80(4Fh)
+        	int 10h
+ENDM
+;*******************************************************        
+;02H Establece la posicion del cursor                           
+        ;BH -> Numero de Pagina
+        ;DH -> Fila (Renglon)
+        ;DL -> Columna    					
+;*******************************************************        
+GOTOXY  MACRO x,y
+;Macro para ir a una posicion especifica 
+	push bx
+	push dx
+	push ax
+             	xor bh,bh
+             	mov dl,x
+             	mov dh,y     
+             	mov ah,02h
+             	int 10h
+	pop ax
+	pop dx
+	pop bx
+ENDM
+;*******************************************************
+COLORES MACRO COL
+;Macro para ingresar un color
+         	mov ax,0600h
+         	mov bh,COL
+         	xor cx,cx
+         	mov dx,184fh
+         	int 10h
+ENDM
+;*******************************************************
